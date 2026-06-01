@@ -1,12 +1,56 @@
-This is a somewhat failed archived project of mine.
-Managed to download the video in the backend but failed to make it reached to the frontend.
-This is mainly due to ai generated code that i do no truly know how it is working to fix it myself.
+# YouTube Bulk Video Downloader (Archived)
 
-Anyway, for the future me or any one else interested, to run this code:
- 1. Have python in your system, create a .venv in the project root.
- 2. Activate venv and install yt-dlp (pip install yt-dlp).
- 3. Go into server directory and intialize node (npm init -y, -y to yes everything)
- 4. install express, cors local
- 
-Now to actually run this code, host the index.html with live server, run server.js via node.
-Voila, open localhost:5500 and enjoy...
+A simple UI for downloading YouTube videos/audio with merged or separate files.  
+The backend extracts metadata using **yt‑dlp**; the frontend handles UI and progress.
+
+---
+
+## Description
+- Downloads videos/audio from a YouTube URL.  
+- Supports merging audio/video into one file or keeping them separate.  
+- Shows storage estimate, progress bar, and notifications.  
+
+> *Note: The project is archived; it may or may not work and if so, locally only.*
+
+---
+
+## Prerequisites
+- Python 3.x (for virtual environment)  
+- Node.js (for server)  
+
+---
+
+## Setup
+```bash
+# 1. Create a python venv in the project root
+python -m venv .venv
+
+# 2. Activate it
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+
+# 3. Install yt-dlp
+pip install yt-dlp
+
+# 4. Initialize Node project
+cd server
+npm init -y
+npm install express cors child_process util
+```
+
+---
+
+## Run
+```bash
+# Start the Express server
+node server.js
+
+# Open the UI (served via Live Server)
+http://localhost:5500
+```
+
+---
+
+## Notes
+- All files are downloaded in `./server/downloads`.  
+- No persistent storage; jobs disappear after completion.  
+- Works only on localhost due to hard‑coded paths.
