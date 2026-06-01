@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>YouTube Bulk Video Downloader</title>
+
+  <link rel="stylesheet" href="static/css/style.css">
+  <script src="static/js/main.js" defer></script>
+</head>
+
+<body>
+<div class="container">
+  <h2>YouTube Bulk Video Downloader</h2>
+
+  <!-- Input area -->
+  <div id="url-input">
+    <input type="text" id="urlInput"
+        placeholder="e.g. https://www.youtube.com/watch?v=XYZ123"/>
+    <button id="addBtn">Add</button>
+  </div>
+  
+  <div id="notifications"></div>
+
+  <div id="preferences">
+    <h3>Default Quality Preferences</h3>
+    <div class="preference-row">
+      <div class="preference-group">
+        <label for="defaultVideoQuality">Video Quality</label>
+        <select id="defaultVideoQuality">
+          <option value="best">Best Available</option>
+          <option value="2160">2160p</option>
+          <option value="1440">1440p</option>
+          <option value="1080">1080p</option>
+          <option value="720">720p</option>
+          <option value="480">480p</option>
+          <option value="360">360p</option>
+          <option value="240">240p</option>
+          <option value="144">144p</option>
+        </select>
+      </div>
+      <div class="preference-group">
+        <label for="defaultAudioQuality">Audio Quality</label>
+        <select id="defaultAudioQuality">
+          <option value="best">Best Available</option>
+          <option value="160">160 kbps</option>
+          <option value="128">128 kbps</option>
+          <option value="96">96 kbps</option>
+          <option value="64">64 kbps</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div id="url-list"></div>
+
+  <section id="download-options">
+    <h3>Downloads</h3>
+
+    <div class="options-row">
+      <label>
+        <input type="checkbox" id="downloadMerged" checked>
+        Video+Audio(Merged)
+      </label>
+
+      <label>
+        <input type="checkbox" id="keepAudio">
+        Audio Files
+      </label>
+
+      <label>
+        <input type="checkbox" id="keepVideo">
+        Video Files
+      </label>
+    </div>
+  </section>
+
+  <div id="storage-estimate">
+    <div id="storage-details"></div>
+  </div>
+
+  <div id="progressContainer" hidden>
+      <div id="progressBar"></div>
+  </div>
+
+  <div id="progressText" hidden></div>
+
+  <button id="proceedBtn">Proceed to download</button>
+
+</div>
+</body>
+</html>

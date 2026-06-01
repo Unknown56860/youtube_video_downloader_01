@@ -1,0 +1,402 @@
+:root {
+  --bg: #121212;
+  --panel: #1b1b1b;
+  --input: #252525;
+
+  --text: #e0e0e0;
+  --muted: #a0a0a0;
+
+  --orange: #f76e1f;
+  --blue: #1f6bf7;
+  --green: #57e31f;
+  --red: #e31f1f;
+
+  --border: rgb(255 255 255 / 10%);
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow: 0 4px 8px rgb(0 0 0 / 30%);
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.4 "Segoe UI", sans-serif;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+.container {
+  max-width: 850px;
+  margin-inline: auto;
+}
+
+h2 {
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  text-align: center;
+  font-size: 1.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+/* ---------- Panels ---------- */
+
+:is(
+  #preferences,
+  #download-options,
+  #storage-estimate,
+  #url-list,
+  .item
+) {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+:is(#preferences, #download-options, #storage-estimate, .item) {
+  padding: 12px;
+}
+
+:is(#preferences, #download-options, #storage-estimate) {
+  margin-bottom: 12px;
+}
+
+#preferences {
+  border-left: 4px solid var(--blue);
+}
+
+#url-list,
+.item {
+  border-left: 4px solid var(--orange);
+}
+
+#download-options {
+  border-left: 4px solid var(--blue);
+}
+
+#storage-estimate {
+  border-left: 4px solid var(--green);
+}
+
+/* ---------- Form Controls ---------- */
+
+input[type="text"],
+select {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  background: var(--input);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+:is(input, select):focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+/* ---------- Buttons ---------- */
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+#addBtn {
+  padding: 10px 16px;
+  background: var(--orange);
+  color: #fff;
+}
+
+#addBtn:hover {
+  background: var(--blue);
+}
+
+#proceedBtn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--green);
+  color: #000;
+}
+
+#proceedBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.delete-btn {
+  align-self: flex-end;
+  padding: 7px 12px;
+  color: var(--red);
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+.delete-btn:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+/* ---------- Flex Layouts ---------- */
+
+#url-input,
+.preference-row,
+.selectors {
+  display: flex;
+  gap: 8px;
+}
+
+.preference-row {
+  gap: 10px;
+}
+
+#url-input {
+  margin-bottom: 12px;
+}
+
+#urlInput,
+.preference-group,
+.selectors > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- Preferences ---------- */
+
+.preference-group label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- URL List ---------- */
+
+#url-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow);
+}
+
+.video-title {
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.video-duration {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- Download Options ---------- */
+
+#download-options .options-row,
+#storage-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+#download-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#download-options input[type="checkbox"] {
+  margin: 0;
+}
+
+/* ---------- Notifications ---------- */
+
+#notifications {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.notification {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  animation: slideIn 0.2s ease;
+}
+
+.notification.success {
+  background: rgb(87 227 31 / 12%);
+  border-left: 4px solid var(--green);
+}
+
+.notification.error {
+  background: rgb(227 31 31 / 12%);
+  border-left: 4px solid var(--red);
+}
+
+.notification.info {
+  background: rgb(31 107 247 / 12%);
+  border-left: 4px solid var(--blue);
+}
+
+/* ---------- Storage ---------- */
+
+#storage-details {
+  font-size: 13px;
+}
+
+.storage-stat {
+  display: flex;
+  gap: 4px;
+}
+
+.storage-label,
+.video-duration {
+  color: var(--muted);
+}
+
+.storage-value,
+.storage-total {
+  font-weight: 600;
+}
+
+.storage-total {
+  margin-left: auto;
+  color: var(--green);
+}
+
+/* ---------- Loading ---------- */
+
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.btn-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid rgb(255 255 255 / 30%);
+  border-top-color: #fff;
+  border-radius: 50%;
+
+  transform: translateY(-50%);
+  animation: spin 0.7s linear infinite;
+}
+
+/* ---------- Progress ---------- */
+
+#progressContainer {
+  height: 20px;
+  margin-bottom: 8px;
+
+  overflow: hidden;
+
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--blue);
+  border-radius: var(--radius);
+}
+
+#progressBar {
+  width: 0%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    var(--blue),
+    var(--green)
+  );
+
+  transition: width 0.3s ease;
+}
+
+#progressText {
+  margin-bottom: 12px;
+
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+
+  color: var(--muted);
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  #url-input,
+  .preference-row,
+  .selectors,
+  #download-options .options-row {
+    flex-direction: column;
+  }
+
+  #download-options .options-row {
+    gap: 6px;
+  }
+
+  #addBtn,
+  .storage-total {
+    width: 100%;
+  }
+
+  .storage-total {
+    margin-left: 0;
+  }
+}
+

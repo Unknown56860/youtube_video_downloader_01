@@ -1,0 +1,7 @@
+# Ignore these directories
+node_modules/
+downloads/
+.venv/
+
+# Ignore these files
+package-lock.json
