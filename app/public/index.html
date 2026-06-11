@@ -6,8 +6,9 @@
 
   <title>YouTube Bulk Video Downloader</title>
 
+  <link rel="icon" href="./static/res/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="static/css/style.css">
-  <script src="static/js/main.js" defer></script>
+  <script type="module" src="static/js/main.js" defer></script>
 </head>
 
 <body>
@@ -22,6 +23,14 @@
   </div>
   
   <div id="notifications"></div>
+  
+<!-- 
+  <p>https://youtube.com/shorts/uq6bUOcq8MY?si=WPJoF5eJ9mi01ew8</p>
+  <p>https://youtu.be/wJQXNdpCkwg?si=YDDvs0dX-7Oq2W_Y</p>
+  <p>https://www.youtube.com/watch?v=b68HETiNO98</p>
+  <p>https://www.youtube.com/watch?v=b68HETiNO98&list=PL4fGSI1pDJn4WX22qg1Po7qKOwOb4H6Sk</p>
+  <p>https://youtube.com/playlist?list=PLZoTAELRMXVNKtpy0U_Mx9N26w8n0hIbs&si=GAFW9_Vi69mpGFdb</p> 
+-->
 
   <div id="preferences">
     <h3>Default Quality Preferences</h3>
@@ -53,37 +62,17 @@
     </div>
   </div>
 
-  <div id="url-list"></div>
-
-  <section id="download-options">
-    <h3>Downloads</h3>
-
-    <div class="options-row">
-      <label>
-        <input type="checkbox" id="downloadMerged" checked>
-        Video+Audio(Merged)
-      </label>
-
-      <label>
-        <input type="checkbox" id="keepAudio">
-        Audio Files
-      </label>
-
-      <label>
-        <input type="checkbox" id="keepVideo">
-        Video Files
-      </label>
-    </div>
-  </section>
+  <div id="video-list"></div>
 
   <div id="storage-estimate">
+    <label><input type="checkbox" id="onlyAudio">Audio files only</label>
     <div id="storage-details"></div>
   </div>
-
+  
+  <div id="statusText" hidden></div>
   <div id="progressContainer" hidden>
       <div id="progressBar"></div>
   </div>
-
   <div id="progressText" hidden></div>
 
   <button id="proceedBtn">Proceed to download</button>
