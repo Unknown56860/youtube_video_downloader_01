@@ -4,8 +4,8 @@ import {
     getDownloadQueue, manageDownload, endSSE
 } from "./utils/elements.js";
 
-// This base url will contaain url for backend,
-// when frontend is hosted on a different server.
+// This base url will contain url for the backend,
+// when frontend is hosted by a different server.
 const BASE_URL = "";
 // const BASE_URL = "http://localhost:3000";
 

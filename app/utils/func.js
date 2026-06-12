@@ -69,6 +69,7 @@ export async function downloadJob(downloadId, jobs, PATHS) {
     if (onlyAudio) {
         args.push(selectedAudio.formatCode, "-x", "--audio-format", "m4a", video.url);
     } else {
+        // args.push(`${selectedVideo.formatCode}+${selectedAudio.formatCode}`, "--merge-output-format", "mp4", video.url);
         args.push(`${selectedVideo.formatCode}+${selectedAudio.formatCode}`, "--merge-output-format", "mp4", 
             "--postprocessor-args", "ffmpeg:-c:v libx264 -c:a aac -b:a 192k", "--recode-video", "mp4", video.url);
     }
@@ -108,7 +109,6 @@ export async function cleanupDownloadFolders(download_path, jobs, max_age) {
         for (const entry of entries) {
             if (!entry.isDirectory()) continue;
             const downloadId = entry.name;
-            // Skip active jobs
             if (jobs.has(downloadId)) { continue; }
             const folderPath = path.join(download_path, downloadId);
             try {
