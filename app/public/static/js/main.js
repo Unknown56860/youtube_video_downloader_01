@@ -4,6 +4,8 @@ import {
     getDownloadQueue, manageDownload, endSSE
 } from "./utils/elements.js";
 
+// This base url will contaain url for backend,
+// when frontend is hosted on a different server.
 const BASE_URL = "";
 // const BASE_URL = "http://localhost:3000";
 
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const url = urlInput.value.trim(); urlInput.value = "";
             if(!url) { showNotification("error", "URL box empty", DOM_Elements); return; }
             try {
-                console.log("Requesting metadata for:", response.downloadId);
+                console.log("Requesting metadata for:", url);
                 const videosInfo = await postJson({url}, URL_VIDEO_META);
                 for(const videoInfo of videosInfo) { addVideoItem(videoInfo, DOM_Elements); }
                 if(videosInfo.length === 0) { showNotification("error", "No videos found", DOM_Elements); }

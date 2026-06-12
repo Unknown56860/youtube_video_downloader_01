@@ -123,19 +123,19 @@ export function updateStorageEstimate(DOM_Elements) {
         const audioSelect = item.querySelector(".audio-format");
         const selectedAudio = item.videoInfo.audioFormats.find(f => f.formatCode === audioSelect.value);
         const audioKByte = selectedAudio.bitrate * item.videoInfo.duration / 8;
+        totalKBytes += audioKByte;
 
-        if(onlyAudio) { totalKBytes += audioKByte; continue; }
+        if(onlyAudio) { continue; }
 
         const videoSelect = item.querySelector(".video-format");
         const selectedVideo = item.videoInfo.videoFormats.find(f => f.formatCode === videoSelect.value);
         const videoKByte = selectedVideo.bitrate * item.videoInfo.duration / 8;
-
-        totalKBytes += videoKByte + audioKByte;
+        totalKBytes += videoKByte;
     }
 
     DOM_Elements.storageDetails.innerHTML = `
         <div class="storage-total">
-            Total size: ${formatBytes(totalKBytes)}
+            Estimated total size: ${formatBytes(totalKBytes)}
         </div>
     `;
 }

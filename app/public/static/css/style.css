@@ -1,10 +1,10 @@
 :root {
   --bg: #121212;
-  --panel: #1b1b1b;
-  --input: #252525;
+  --surface: #1b1b1b;
+  --surface-alt: #252525;
 
   --text: #e0e0e0;
-  --muted: #a0a0a0;
+  --text-muted: #9e9e9e;
 
   --orange: #f76e1f;
   --blue: #1f6bf7;
@@ -12,12 +12,16 @@
   --red: #e31f1f;
 
   --border: rgb(255 255 255 / 10%);
-  --radius: 8px;
+  --radius: 10px;
   --radius-sm: 6px;
-  --shadow: 0 4px 8px rgb(0 0 0 / 30%);
+
+  --shadow: 0 4px 12px rgb(0 0 0 / 25%);
+  --transition: 0.2s ease;
 }
 
-/* ---------- Base ---------- */
+/* =========================
+   RESET
+========================= */
 
 *,
 *::before,
@@ -27,10 +31,10 @@
 
 body {
   margin: 0;
-  padding: 16px;
+  padding: 20px;
   background: var(--bg);
   color: var(--text);
-  font: 14px/1.4 "Segoe UI", sans-serif;
+  font: 14px/1.5 "Segoe UI", sans-serif;
 }
 
 input,
@@ -39,56 +43,62 @@ button {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
+#logo {
+  max-height: 50px;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
 .container {
-  max-width: 850px;
-  margin-inline: auto;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 h2 {
-  margin: 0 0 14px;
-  padding-bottom: 8px;
+  margin: 0 0 20px;
   text-align: center;
-  font-size: 1.4rem;
-  border-bottom: 1px solid var(--border);
+  font-size: 1.5rem;
 }
 
 h3 {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-size: 1rem;
 }
 
-/* ---------- Panels ---------- */
+/* =========================
+   PANELS
+========================= */
 
-:is(
-  #preferences,
-  #download-options,
-  #storage-estimate,
-  #url-list,
-  .item
-) {
-  background: var(--panel);
+#preferences,
+#storage-estimate,
+.video-item,
+#progressContainer {
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
 
-:is(#preferences, #download-options, #storage-estimate, .item) {
-  padding: 12px;
+#preferences,
+#storage-estimate,
+.video-item {
+  padding: 14px;
 }
 
-:is(#preferences, #download-options, #storage-estimate) {
-  margin-bottom: 12px;
+#preferences,
+#storage-estimate,
+#video-list,
+#notifications {
+  margin-bottom: 14px;
 }
 
 #preferences {
-  border-left: 4px solid var(--blue);
-}
-
-#url-list,
-.item {
-  border-left: 4px solid var(--orange);
-}
-
-#download-options {
   border-left: 4px solid var(--blue);
 }
 
@@ -96,37 +106,60 @@ h3 {
   border-left: 4px solid var(--green);
 }
 
-/* ---------- Form Controls ---------- */
+.video-item {
+  border-left: 4px solid var(--orange);
+  box-shadow: var(--shadow);
+}
+
+/* =========================
+   INPUT AREA
+========================= */
+
+#url-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+#urlInput {
+  flex: 1;
+}
 
 input[type="text"],
 select {
   width: 100%;
   min-width: 0;
+
   padding: 10px 12px;
-  background: var(--input);
+
+  background: var(--surface-alt);
   color: var(--text);
+
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
 
-:is(input, select):focus {
+input:focus,
+select:focus {
   outline: none;
   border-color: var(--orange);
 }
 
-/* ---------- Buttons ---------- */
+/* =========================
+   BUTTONS
+========================= */
 
 button {
-  cursor: pointer;
-  border: 0;
+  border: none;
   border-radius: var(--radius-sm);
   font-weight: 600;
+  transition: var(--transition);
 }
 
 #addBtn {
-  padding: 10px 16px;
+  padding: 10px 18px;
   background: var(--orange);
-  color: #fff;
+  color: white;
 }
 
 #addBtn:hover {
@@ -135,10 +168,15 @@ button {
 
 #proceedBtn {
   width: 100%;
-  margin-top: 12px;
   padding: 12px;
+  margin-top: 12px;
+
   background: var(--green);
-  color: #000;
+  color: black;
+}
+
+#proceedBtn:hover:not(:disabled) {
+  opacity: 0.9;
 }
 
 #proceedBtn:disabled {
@@ -148,109 +186,120 @@ button {
 
 .delete-btn {
   align-self: flex-end;
-  padding: 7px 12px;
-  color: var(--red);
+
+  padding: 8px 12px;
+
   background: transparent;
+  color: var(--red);
+
   border: 1px solid currentColor;
 }
 
 .delete-btn:hover {
   background: var(--red);
-  color: #fff;
+  color: white;
 }
 
-/* ---------- Flex Layouts ---------- */
-
-#url-input,
-.preference-row,
-.selectors {
-  display: flex;
-  gap: 8px;
-}
+/* =========================
+   PREFERENCES
+========================= */
 
 .preference-row {
-  gap: 10px;
+  display: flex;
+  gap: 12px;
 }
 
-#url-input {
-  margin-bottom: 12px;
-}
-
-#urlInput,
-.preference-group,
-.selectors > * {
+.preference-group {
   flex: 1;
-  min-width: 0;
 }
-
-/* ---------- Preferences ---------- */
 
 .preference-group label {
   display: block;
-  margin-bottom: 4px;
-  color: var(--muted);
+  margin-bottom: 6px;
+
+  color: var(--text-muted);
   font-size: 13px;
 }
 
-/* ---------- URL List ---------- */
+/* =========================
+   VIDEO LIST
+========================= */
 
-#url-list {
+#video-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.video-item {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  box-shadow: var(--shadow);
-}
-
 .video-title {
+  font-size: 15px;
   font-weight: 600;
   word-break: break-word;
 }
 
 .video-duration {
+  color: var(--text-muted);
   font-size: 13px;
-  color: var(--muted);
 }
 
-/* ---------- Download Options ---------- */
-
-#download-options .options-row,
-#storage-details {
+.quality-selectors {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
+  gap: 10px;
 }
 
-#download-options label {
+.quality-selectors > * {
+  flex: 1;
+}
+
+/* =========================
+   STORAGE
+========================= */
+
+#storage-estimate {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#storage-estimate label {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   cursor: pointer;
-  white-space: nowrap;
 }
 
-#download-options input[type="checkbox"] {
-  margin: 0;
+#storage-details {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-/* ---------- Notifications ---------- */
+.storage-total {
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* =========================
+   NOTIFICATIONS
+========================= */
 
 #notifications {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 10px;
+  gap: 8px;
 }
 
 .notification {
-  padding: 8px 12px;
+  padding: 10px 12px;
   border-radius: var(--radius-sm);
-  animation: slideIn 0.2s ease;
+
+  animation: slide-in 0.2s ease;
 }
 
 .notification.success {
@@ -268,69 +317,29 @@ button {
   border-left: 4px solid var(--blue);
 }
 
-/* ---------- Storage ---------- */
+/* =========================
+   PROGRESS
+========================= */
 
-#storage-details {
-  font-size: 13px;
+#statusText,
+#progressText {
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-.storage-stat {
-  display: flex;
-  gap: 4px;
-}
-
-.storage-label,
-.video-duration {
-  color: var(--muted);
-}
-
-.storage-value,
-.storage-total {
+#statusText {
   font-weight: 600;
 }
 
-.storage-total {
-  margin-left: auto;
-  color: var(--green);
+#progressText {
+  color: var(--text-muted);
+  font-size: 13px;
 }
-
-/* ---------- Loading ---------- */
-
-.btn-loading {
-  position: relative;
-  pointer-events: none;
-  opacity: 0.8;
-}
-
-.btn-loading::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 10px;
-
-  width: 14px;
-  height: 14px;
-
-  border: 2px solid rgb(255 255 255 / 30%);
-  border-top-color: #fff;
-  border-radius: 50%;
-
-  transform: translateY(-50%);
-  animation: spin 0.7s linear infinite;
-}
-
-/* ---------- Progress ---------- */
 
 #progressContainer {
-  height: 20px;
-  margin-bottom: 8px;
-
   overflow: hidden;
-
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--blue);
-  border-radius: var(--radius);
+  height: 20px;
+  margin-bottom: 10px;
 }
 
 #progressBar {
@@ -346,19 +355,39 @@ button {
   transition: width 0.3s ease;
 }
 
-#progressText {
-  margin-bottom: 12px;
+/* =========================
+   LOADING BUTTON
+========================= */
 
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-
-  color: var(--muted);
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.8;
 }
 
-/* ---------- Animations ---------- */
+.btn-loading::after {
+  content: "";
 
-@keyframes slideIn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid rgb(255 255 255 / 30%);
+  border-top-color: white;
+  border-radius: 50%;
+
+  transform: translateY(-50%);
+  animation: spin 0.7s linear infinite;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes slide-in {
   from {
     opacity: 0;
     transform: translateY(-6px);
@@ -376,27 +405,22 @@ button {
   }
 }
 
-/* ---------- Responsive ---------- */
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 640px) {
   #url-input,
   .preference-row,
-  .selectors,
-  #download-options .options-row {
+  .quality-selectors {
     flex-direction: column;
   }
 
-  #download-options .options-row {
-    gap: 6px;
-  }
-
-  #addBtn,
-  .storage-total {
+  #addBtn {
     width: 100%;
   }
 
-  .storage-total {
-    margin-left: 0;
+  #storage-details {
+    justify-content: flex-start;
   }
 }
-

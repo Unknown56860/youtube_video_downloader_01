@@ -6,9 +6,9 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
 import { buildVideoInfo, downloadJob, pollJob, cleanupDownloadFolders } from "./utils/func.js";
-// import { mockResults, mockResults2 } from "./utils/mockData.js";
 
 const PORT = 3000;
+const runningLocal = true;
 
 const BASE_PATH = import.meta.dirname;
 const YT_DLP_PATH = path.resolve(BASE_PATH, "../.venv/Scripts/yt-dlp.exe");
@@ -16,13 +16,18 @@ const DOWNLOAD_FILES_PATH = path.resolve(BASE_PATH, "./downloads");
 
 const PATHS = { BASE_PATH, YT_DLP_PATH, DOWNLOAD_FILES_PATH };
 
-const VIDEO_INFO = "/video-info";
-const PREPARE_DOWNLOAD = "/prepare-download";
-const DOWNLOAD_PROGRESS = "/download-progress/:id";
-const EXPOSE_FILES = "/download-file/:downloadId/:filename";
+const URL_VIDEO_META = "/video-info";
+const URL_VIDEO_PREPARE = "/prepare-download";
+const URL_VIDEO_PROGRESS = "/download-progress/:id";
+const URL_VIDEO_DOWNLOAD = "/download-file/:downloadId/:filename";
 
-const CLEANUP_INTERVAL_MS = 6 * 60 * 60 * 1000; // 6 hours
-const MAX_AGE_MS = 48 * 60 * 60 * 1000; // 50 hours
+let CLEANUP_INTERVAL_MS = 6 * 60 * 60 * 1000; // 6 hours
+let MAX_AGE_MS = 48 * 60 * 60 * 1000; // 48 hours
+
+if(runningLocal) {
+    CLEANUP_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
+    MAX_AGE_MS = 2 * 60 * 60 * 1000; // 2 hours
+}
 
 const jobs = new Map();
 
@@ -34,10 +39,9 @@ app.use(express.json());
 
 app.use(express.static((path.join(BASE_PATH, "public"))));
 
-app.post(VIDEO_INFO, async (req, res) => {
+app.post(URL_VIDEO_META, async (req, res) => {
     let { url } = req.body;
     console.log(`[Request] - Metadata for "${url}"`);
-    return res.json(mockResults2);
     try {
         const parsed = new URL(url);
         const videoId = parsed.searchParams.get("v");
@@ -62,7 +66,7 @@ app.post(VIDEO_INFO, async (req, res) => {
     }
 });
 
-app.post(PREPARE_DOWNLOAD, (req, res) => {
+app.post(URL_VIDEO_PREPARE, (req, res) => {
     try {
         const queue = req.body;
         console.log(`[Request] - Received download request with ${queue.videoQueue.length} video/s.`);
@@ -77,7 +81,7 @@ app.post(PREPARE_DOWNLOAD, (req, res) => {
     }
 });
 
-app.get(DOWNLOAD_PROGRESS, (req, res) => {
+app.get(URL_VIDEO_PROGRESS, (req, res) => {
     const { id } = req.params;
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
@@ -89,7 +93,7 @@ app.get(DOWNLOAD_PROGRESS, (req, res) => {
     });
 });
 
-app.get(EXPOSE_FILES, (req, res) => {
+app.get(URL_VIDEO_DOWNLOAD, (req, res) => {
     const { downloadId, filename } = req.params;
     console.log(`[Request] - DownloadId: ${downloadId}, File: ${filename}`);
     const filePath = path.resolve(DOWNLOAD_FILES_PATH, downloadId, filename);
@@ -107,16 +111,9 @@ app.get(EXPOSE_FILES, (req, res) => {
 
 app.listen(PORT, () => {
     console.log("[Server]  - Listening on port", PORT);
-    // await cleanupDownloadFolders(DOWNLOAD_FILES_PATH, jobs, MAX_AGE_MS);
     setInterval(() => {
         cleanupDownloadFolders(DOWNLOAD_FILES_PATH, jobs, MAX_AGE_MS);
     }, CLEANUP_INTERVAL_MS);
-    console.log("[Cleanup] - Service started with interval", CLEANUP_INTERVAL_MS/60000, "minutes");
+    console.log(`[Cleanup] - Service started with interval ${CLEANUP_INTERVAL_MS/60000} minutes`);
 });
 
-
-// Video
-// yt-dlp.exe --js-runtimes node --newline -o "../../app/downloads/xyz/testAudio+VideoFile.%(ext)s" -f 93+140 --merge-output-format mp4 "https://youtu.be/wJQXNdpCkwg?si=YDDvs0dX-7Oq2W_Y"
-
-// Audio only
-// yt-dlp.exe --newline -o "../../app/downloads/xyz/testAudioFile.%(ext)s" -f 140 -x --audio-format m4a "https://youtu.be/wJQXNdpCkwg?si=YDDvs0dX-7Oq2W_Y"

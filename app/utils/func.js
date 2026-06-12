@@ -43,8 +43,8 @@ export function buildVideoInfo(video) {
 
 export async function downloadJob(downloadId, jobs, PATHS) {
     const job = jobs.get(downloadId);
-    if (!job) throw new Error("Invalid download Id");
-    if (job.status === "completed") return;
+    if (!job) { throw new Error("Invalid download Id"); }
+    if (job.status === "completed") { return; }
 
     if (job.status === "queued") {
         job.progress = {progress: 0, current: 0, total: job.queue.videoQueue.length, file: ""};
@@ -60,19 +60,17 @@ export async function downloadJob(downloadId, jobs, PATHS) {
     const video = job.queue.videoQueue[job.progress.current];
     const selectedVideo = video.videoFormats[0];
     const selectedAudio = video.audioFormats[0];
-    job.progress.file = getFileName(video, onlyAudio);
+    const filename = getFileName(video, onlyAudio);
     
     const outputDir = path.join(PATHS.DOWNLOAD_FILES_PATH, downloadId);
-    const outputTemplate = path.join(outputDir, `${job.progress.file}.%(ext)s`);
+    const outputTemplate = path.join(outputDir, `${filename}.%(ext)s`);
 
     let args  = ["--js-runtimes", "node", "--newline", "-o", outputTemplate, "-f"];
     if (onlyAudio) {
         args.push(selectedAudio.formatCode, "-x", "--audio-format", "m4a", video.url);
-        job.progress.file += ".m4a";
     } else {
         args.push(`${selectedVideo.formatCode}+${selectedAudio.formatCode}`, "--merge-output-format", "mp4", 
             "--postprocessor-args", "ffmpeg:-c:v libx264 -c:a aac -b:a 192k", "--recode-video", "mp4", video.url);
-        job.progress.file += ".mp4";
     }
 
     const child = spawn(PATHS.YT_DLP_PATH, args);
@@ -84,10 +82,11 @@ export async function downloadJob(downloadId, jobs, PATHS) {
         }
     });
 
-    child.stderr.on("data", data => { console.error("[Error] - Download error:",data.toString()); });
+    child.stderr.on("data", data => { console.error("[Error] - Download error:", data.toString()); });
 
     child.on("close", code => {
         if (code !== 0) { console.error(`[Error] - yt-dlp exited with code ${code}`); }
+        job.progress.file = `${filename}.${onlyAudio ? "m4a" : "mp4"}`;
         job.progress.progress = 100; job.progress.current++;
         downloadJob(downloadId, jobs, PATHS);
     });
@@ -137,7 +136,7 @@ export function getFileName(videoInfo, onlyAudio) {
 }
 
 export function truncateString(str, length) {
-    if(str.length > length) { return str.slice(0, length) + "... "; }
+    if(str.length > length) { return str.slice(0, length) + "..."; }
     return str;
 }
 
