@@ -169,7 +169,7 @@ export function manageDownload(data, url, prevFile, DOM_Elements) {
     }
     if(prevFile != data.data.current) {
         showNotification("info", "Downloading " + data.data.file, DOM_Elements);
-        triggerDownload(`${url}/${data.data.file}`, data.data.file);
+        triggerDownload(`${url}?file=${encodeURIComponent(data.data.file)}`, data.data.file);
     }
     return data.data.current;
 }
@@ -183,6 +183,8 @@ export function endSSE(source, message, DOM_Elements) {
     source.close();
     showNotification("info", "Connection closed with the server", DOM_Elements);
 }
+
+// http://localhost:3000/download-file/ccda1604-83bb-46ec-993d-5ba6e6239742/%E0%A4%B2%E0%A4%97%E0%A4%BE%E0%A4%88%20%E0%A4%A6%E0%A4%BF%E0%A4%B9%E0%A5%80%20%E0%A4%9A%E0%A5%8B%E0%A4%B2%E0%A4%BF%E0%A4%AF%E0%A4%BE%20%E0%A4%95%E0%A5%87%20%E0%A4%B9%E0%A5%81%E0%A4%95%20%E0%A4%B0%E0%A4%BE%E0%A4%9C%E0%A4%BE%E0%A4%9C%E0%A5%80%20_%20#Arvind%20Akela%20Kal...%20-%20(141.665%20kbps).m4a
 
 // Sample json
 

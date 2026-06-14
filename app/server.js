@@ -19,13 +19,13 @@ const PATHS = { BASE_PATH, YT_DLP_PATH, DOWNLOAD_FILES_PATH };
 const URL_VIDEO_META = "/video-info";
 const URL_VIDEO_PREPARE = "/prepare-download";
 const URL_VIDEO_PROGRESS = "/download-progress/:id";
-const URL_VIDEO_DOWNLOAD = "/download-file/:downloadId/:filename";
+const URL_VIDEO_DOWNLOAD = "/download-file/:downloadId";
 
 let CLEANUP_INTERVAL_MS = 6 * 60 * 60 * 1000; // 6 hours
 let MAX_AGE_MS = 48 * 60 * 60 * 1000; // 48 hours
 
 if(runningLocal) {
-    CLEANUP_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
+    CLEANUP_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
     MAX_AGE_MS = 2 * 60 * 60 * 1000; // 2 hours
 }
 
@@ -94,7 +94,8 @@ app.get(URL_VIDEO_PROGRESS, (req, res) => {
 });
 
 app.get(URL_VIDEO_DOWNLOAD, (req, res) => {
-    const { downloadId, filename } = req.params;
+    const { downloadId } = req.params;
+    const filename = req.query.file;
     console.log(`[Request] - DownloadId: ${downloadId}, File: ${filename}`);
     const filePath = path.resolve(DOWNLOAD_FILES_PATH, downloadId, filename);
     // const filePath = path.resolve(DOWNLOAD_FILES_PATH, filename);
